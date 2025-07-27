@@ -3,29 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Sederhana HXAi di Web</title>
+    <title>HXAi: Analisis Gambar Cerdas</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="https://unpkg.com/ml5@latest/dist/ml5.min.js" as="script">
     <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
 </head>
 <body>
-    <h1>Selamat Datang di AI Sederhana HXAi Saya!</h1>
+    <header>
+        <h1>HXAi: Analisis Gambar Cerdas</h1>
+        <p class="tagline">Unggah, Analisis, dan Pahami Gambar Anda dengan Kekuatan AI</p>
+    </header>
 
-    <div class="container">
-        <p>Unggah gambar Anda untuk dianalisis oleh AI:</p>
-        <input type="file" id="imageUpload" accept="image/*">
-        <button id="analyzeButton" disabled>Mulai Analisis Gambar</button>
+    <main>
+        <section class="upload-section">
+            <h2 class="section-title">Mulai Analisis Gambar Anda</h2>
+            <p>Pilih file gambar dari perangkat Anda. HXAi akan mengidentifikasi objek dalam gambar tersebut.</p>
 
-        <div id="imagePreviewContainer">
-            <img id="imagePreview" src="#" alt="Pratinjau Gambar" style="display:none; max-width: 300px; margin-top: 20px;">
-        </div>
+            <div class="input-group">
+                <label for="imageUpload" class="custom-file-upload">
+                    <span>Pilih Gambar</span>
+                    <input type="file" id="imageUpload" accept="image/*" aria-label="Unggah file gambar">
+                </label>
+                <button id="analyzeButton" disabled aria-live="polite">Mulai Analisis</button>
+            </div>
 
-        <div id="resultContainer">
-            <h2>Hasil Analisis AI:</h2>
-            <p id="statusMessage">Menunggu gambar...</p>
-            <ul id="outputList">
+            <div id="imagePreviewContainer" class="image-preview-container">
+                <img id="imagePreview" src="#" alt="Pratinjau Gambar yang Diunggah" style="display:none;">
+            </div>
+        </section>
+
+        <section class="results-section">
+            <h2 class="section-title">Hasil Analisis AI</h2>
+            <p id="statusMessage" role="status">AI siap menerima gambar Anda.</p>
+            <ul id="outputList" class="analysis-results-list">
                 </ul>
-        </div>
-    </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 HXAi. Ditenagai oleh ML5.js &amp; GitHub Pages. Semua Hak Dilindungi.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
