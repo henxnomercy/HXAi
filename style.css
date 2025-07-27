@@ -1,36 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* --- Global Styles & Base Typography --- */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    margin: 30px auto;
-    background-color: #f0f2f5;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; /* Reset default body margin */
+    padding: 20px; /* Add some padding around the content */
+    background-color: #f0f2f5; /* Light grey background */
     color: #333;
     line-height: 1.6;
+    display: flex; /* Use flexbox for overall layout */
+    flex-direction: column; /* Stack content vertically */
+    min-height: 100vh; /* Ensure body takes full viewport height */
 }
 
-h1 {
-    color: #2c3e50;
+/* --- Header Styling --- */
+header {
+    background-color: #ffffff;
+    padding: 25px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     margin-bottom: 30px;
+    text-align: center;
 }
 
-.container {
+header h1 {
+    color: #2c3e50;
+    margin-bottom: 5px; /* Reduce margin to be closer to tagline */
+    font-size: 2.2em; /* Larger title */
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.tagline {
+    color: #666;
+    font-size: 1.1em;
+    margin-top: 0;
+}
+
+/* --- Main Content Area --- */
+main {
+    flex-grow: 1; /* Allow main content to grow and fill available space */
+    display: flex;
+    flex-direction: column; /* Stack sections vertically */
+    gap: 30px; /* Space between sections */
+    max-width: 900px; /* Max width for larger screens */
+    width: 100%; /* Take full width on smaller screens */
+    margin: 0 auto; /* Center the main content */
+    padding-bottom: 30px; /* Padding above the footer */
+}
+
+.section-title {
+    color: #2c3e50;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    display: inline-block; /* To make border-bottom only cover text */
+}
+
+/* --- Card-like Sections --- */
+.upload-section, .results-section {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
-    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
 }
 
+/* --- Input Group for File Upload and Button --- */
+.input-group {
+    display: flex;
+    flex-direction: column; /* Stack vertically on small screens */
+    align-items: center;
+    gap: 15px; /* Space between elements */
+    margin-top: 25px;
+}
+
+/* Hide default file input */
 input[type="file"] {
-    display: block;
-    margin: 20px auto 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fdfdfd;
+    display: none; /* Hide the actual input */
 }
 
-button {
+/* Custom styled file upload button */
+.custom-file-upload {
     background-color: #007bff;
     color: white;
     padding: 12px 25px;
@@ -38,78 +90,177 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.1em;
-    transition: background-color 0.3s ease;
-    margin-bottom: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex; /* Allows text and potential icon */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between icon and text if any */
+    flex-shrink: 0; /* Prevent shrinking on smaller screens */
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
-button:hover:not(:disabled) {
+.custom-file-upload:hover {
     background-color: #0056b3;
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
-button:disabled {
+/* Style for the Analyze Button */
+button#analyzeButton {
+    background-color: #28a745; /* Green for action */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
+    width: 100%; /* Full width on small screens */
+    max-width: 250px; /* Max width for button */
+}
+
+button#analyzeButton:hover:not(:disabled) {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+button#analyzeButton:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
-#imagePreviewContainer {
-    margin-top: 20px;
-}
-
-#imagePreview {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-#resultContainer {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-#resultContainer h2 {
-    color: #28a745;
-    margin-bottom: 15px;
-}
-
-#statusMessage {
-    font-style: italic;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-#outputList {
-    list-style: none;
-    padding: 0;
-    max-height: 200px; /* Batasi tinggi untuk hasil yang banyak */
-    overflow-y: auto; /* Tambahkan scroll jika hasil banyak */
-    border: 1px solid #eee;
-    border-radius: 5px;
-    background-color: #fafafa;
-    text-align: left;
-    margin: 0 auto;
-    width: 80%; /* Lebar daftar hasil */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-#outputList li {
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
+/* --- Image Preview --- */
+.image-preview-container {
+    margin-top: 25px;
+    min-height: 50px; /* Placeholder height */
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
-#outputList li:last-child {
+#imagePreview {
+    max-width: 100%; /* Responsive image */
+    height: auto;
+    border: 3px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    max-height: 400px; /* Limit image height */
+    object-fit: contain; /* Ensure image fits within bounds without cropping */
+}
+
+/* --- Results Section --- */
+#statusMessage {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.analysis-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto; /* Center the list */
+    max-height: 250px; /* Increased height for more results */
+    overflow-y: auto; /* Scroll for many results */
+    border: 1px solid #e9ecef; /* Lighter border */
+    border-radius: 8px;
+    background-color: #f8f9fa; /* Slightly off-white background */
+    text-align: left;
+    width: 95%; /* Adjust width for better responsiveness */
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.03);
+}
+
+.analysis-results-list li {
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05em;
+    background-color: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.analysis-results-list li:last-child {
     border-bottom: none;
 }
 
-#outputList li span:first-child {
-    font-weight: bold;
+.analysis-results-list li:nth-child(even) {
+    background-color: #f2f2f2; /* Subtle stripe for readability */
+}
+
+.analysis-results-list li span:first-child {
+    font-weight: 600; /* Slightly bolder */
     color: #0056b3;
 }
 
-#outputList li span:last-child {
-    color: #4CAF50;
-    font-weight: bold;
+.analysis-results-list li span:last-child {
+    color: #28a745;
+    font-weight: 700; /* Bolder percentage */
+    flex-shrink: 0; /* Prevent percentage from wrapping */
+    margin-left: 15px; /* Space between label and percentage */
+}
+
+/* --- Footer Styling --- */
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    color: #777;
+    font-size: 0.9em;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Responsiveness: Media Queries --- */
+
+/* For tablets and larger phones (e.g., width > 600px) */
+@media (min-width: 600px) {
+    header h1 {
+        font-size: 2.8em;
+    }
+
+    .tagline {
+        font-size: 1.2em;
+    }
+
+    .section-title {
+        font-size: 2.2em;
+    }
+
+    .input-group {
+        flex-direction: row; /* Layout side-by-side on larger screens */
+        justify-content: center;
+    }
+
+    button#analyzeButton {
+        width: auto; /* Let button size itself */
+    }
+
+    .custom-file-upload {
+        min-width: 180px; /* Ensure sufficient width for label */
+    }
+
+    .analysis-results-list {
+        width: 70%; /* Narrower list for better readability on wider screens */
+    }
+}
+
+/* For desktops and larger screens (e.g., width > 900px) */
+@media (min-width: 900px) {
+    header h1 {
+        font-size: 3.5em;
+    }
+
+    .tagline {
+        font-size: 1.3em;
+    }
+
+    .section-title {
+        font-size: 2.5em;
+    }
 }
