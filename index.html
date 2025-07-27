@@ -9,8 +9,23 @@
 </head>
 <body>
     <h1>Selamat Datang di AI Sederhana HXAi Saya!</h1>
-    <p id="output">AI Siap...</p>
-    <button id="startButton">Mulai Analisis</button>
+
+    <div class="container">
+        <p>Unggah gambar Anda untuk dianalisis oleh AI:</p>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button id="analyzeButton" disabled>Mulai Analisis Gambar</button>
+
+        <div id="imagePreviewContainer">
+            <img id="imagePreview" src="#" alt="Pratinjau Gambar" style="display:none; max-width: 300px; margin-top: 20px;">
+        </div>
+
+        <div id="resultContainer">
+            <h2>Hasil Analisis AI:</h2>
+            <p id="statusMessage">Menunggu gambar...</p>
+            <ul id="outputList">
+                </ul>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
