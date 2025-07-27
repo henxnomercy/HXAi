@@ -111,32 +111,45 @@ analyzeButton.addEventListener('click', () => {
         updateAnalyzeButtonState(); // Nonaktifkan tombol selama analisis
         outputList.innerHTML = ''; 
 
-        // Pastikan classifier sudah diinisialisasi
-        if (classifier) {
-            classifier.classify(imagePreview, gotResult);
+        // PENAMBAHAN PENTING: Validasi elemen gambar sebelum klasifikasi
+        // Pastikan gambar sudah fully loaded dan siap untuk dianalisis
+        if (imagePreview.complete && imagePreview.naturalHeight !== 0) {
+            console.log('[DEBUG] Gambar siap untuk klasifikasi.');
+            if (classifier) {
+                classifier.classify(imagePreview, gotResult);
+            } else {
+                statusMessage.textContent = 'Error: Model AI belum diinisialisasi. Coba muat ulang halaman.';
+                console.error('Classifier is not initialized!');
+                updateAnalyzeButtonState();
+            }
         } else {
-            statusMessage.textContent = 'Error: Model AI belum diinisialisasi. Coba muat ulang halaman.';
-            console.error('Classifier is not initialized!');
-            updateAnalyzeButtonState(); // Aktifkan kembali jika ada error
+            statusMessage.textContent = 'Gambar belum sepenuhnya dimuat atau tidak valid. Coba lagi atau unggah gambar lain.';
+            console.error('[DEBUG] Gambar belum siap untuk klasifikasi. complete:', imagePreview.complete, 'naturalHeight:', imagePreview.naturalHeight);
+            updateAnalyzeButtonState(); // Aktifkan kembali tombol karena gagal menganalisis
         }
     } else {
-        // Ini seharusnya tidak tercapai jika updateAnalyzeButtonState() berfungsi
-        // dengan baik, tapi sebagai fallback
         if (!isModelReady) {
             statusMessage.textContent = 'Model AI belum siap. Mohon tunggu atau refresh halaman.';
         } else if (!currentImageFile) {
             statusMessage.textContent = 'Tidak ada gambar untuk dianalisis. Silakan unggah gambar terlebih dahulu.';
         }
-        updateAnalyzeButtonState(); // Pastikan tombol dalam keadaan benar
+        updateAnalyzeButtonState(); 
     }
 });
 
 // --- Fungsi Callback Setelah Analisis Selesai ---
 function gotResult(error, results) {
     if (error) {
-        console.error('Error klasifikasi:', error);
-        statusMessage.textContent = 'Terjadi kesalahan saat klasifikasi gambar. Lihat konsol (F12) untuk detail.';
-        outputList.innerHTML = `<li style="color: red;">Error: ${error.message || 'Unknown error'}</li>`;
+        console.error('Error klasifikasi dari ML5.js:', error); // Log objek error secara penuh
+        
+        let errorMessage = 'Terjadi kesalahan saat klasifikasi gambar.';
+        if (error.message) {
+            errorMessage += ` Detail: ${error.message}`;
+        } else if (typeof error === 'string') {
+            errorMessage += ` Detail: ${error}`;
+        }
+        statusMessage.textContent = errorMessage;
+        outputList.innerHTML = `<li style="color: red;">${errorMessage}</li>`;
     } else {
         console.log('Hasil Klasifikasi:', results);
         statusMessage.textContent = 'Analisis Selesai!';
@@ -162,7 +175,7 @@ function gotResult(error, results) {
             outputList.innerHTML = `<li>Tidak ada objek yang dapat diidentifikasi secara pasti.</li>`;
         }
     }
-    updateAnalyzeButtonState(); // Perbarui status tombol setelah analisis selesai
+    updateAnalyzeButtonState(); 
 }
 
 // --- Inisialisasi Saat Halaman Dimuat ---
